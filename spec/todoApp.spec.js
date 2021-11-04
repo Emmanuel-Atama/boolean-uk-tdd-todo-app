@@ -1,18 +1,20 @@
+const { id } = require('../src/todoApp')
 const todoApp = require('../src/todoApp')
 
 describe('Create todoApp', () => {
-    beforeEach(() => {
+    afterEach(() => {
+        todoApp.items = [] //Resets the todoApp everytime it is run
         todoApp.id = 0
     })
     it("Returns a created Todo item with an id, text and a status", () => {
         //1. Set up
         const expected = {
             id: 1,
-            text: "Brush your teeth",
+            text: "Testing",
             status: "incomplete"
         }
         //2. Execute
-        expect(todoApp.create("Brush your teeth")).toEqual(expected)
+        expect(todoApp.create("Testing")).toEqual(expected)
         //3. Verify
     })
     it("Creates multiple todo items", () => {
@@ -48,5 +50,53 @@ describe('Create todoApp', () => {
         //2. Execute
         expect(items).toEqual(expected)
     })
-    
+    it("Show only todo items that are complete", () => {
+         //1. Set up
+         todoApp.create("Brush your teeth")
+         todoApp.create("Take your bath")
+         
+        todoApp.setComplete(1)
+
+         const expected = [
+            {
+                id: 1,
+                text: "Brush your teeth",
+                status: "complete"
+            },
+            {
+                id: 2,
+                text: "Take your bath",
+                status: "incomplete"
+            }
+        ]
+
+         //2. Execute
+    expect(todoApp.items).toEqual(expected)
+    })
+    it("Show only todo items that are incomplete", () => {
+        //1. Set up
+        todoApp.create("Brush your teeth")
+        todoApp.create("Take your bath")
+        
+        todoApp.setComplete(1)
+        todoApp.setComplete(2)
+        todoApp.setInComplete(2)
+
+        const expected = [
+           {
+               id: 1,
+               text: "Brush your teeth",
+               status: "complete"
+           },
+           {
+               id: 2,
+               text: "Take your bath",
+               status: "incomplete"
+           }
+       ]
+
+        //2. Execute
+      expect(todoApp.items).toEqual(expected)
+     
+   })
 })

@@ -14,6 +14,18 @@ const todoApp = {
     },
     showAll: function() {
         return this.items
+    },
+    setComplete: function(id) {
+        console.log("Inside the setComplete function: ", id)
+        const item = this.items.find((item) => item.id === id)
+        item.status = "complete"
+        return item
+    },
+    setInComplete: function(id) {
+        const item = this.items.find((item) => item.id === id)
+        item.status = "incomplete"
+        return item
     }
+   
 }
 module.exports = todoApp
